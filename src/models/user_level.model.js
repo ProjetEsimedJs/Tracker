@@ -1,0 +1,35 @@
+const {DataTypes } = require('sequelize');
+const {sequelize} = require('../models/sqlite.db');
+
+exports.User_level = sequelize.define('User_level', {
+    // Model attributes are defined here
+    id_user_level: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        allowNull: false
+    },
+
+    id_user: {
+        type: DataTypes.STRING,
+        foreignKey: true,
+        allowNull: false
+    },
+
+    id_level: {
+        type: DataTypes.STRING,
+        foreignKey: true,
+        allowNull: false
+    },
+    level_date_start: {
+        type: DataTypes.DATE.toLocaleString(),
+        timestamp: true,
+        createdAt: true,
+        allowNull: false
+    },
+    level_date_end: {
+        type: DataTypes.DATE.toLocaleString(),
+        timestamp: true,
+        allowNull: false
+    },
+    tableName: 'User_level'
+});
