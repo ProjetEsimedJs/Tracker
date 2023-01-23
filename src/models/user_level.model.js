@@ -4,7 +4,7 @@ const {sequelize} = require('../models/sqlite.db');
 exports.User_level = sequelize.define('User_level', {
     // Model attributes are defined here
     id_user_level: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false
     },
@@ -16,7 +16,7 @@ exports.User_level = sequelize.define('User_level', {
     },
 
     id_level: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         foreignKey: true,
         allowNull: false
     },
@@ -33,3 +33,4 @@ exports.User_level = sequelize.define('User_level', {
     },
     tableName: 'User_level'
 });
+//belongsToMany(models.User, { through: 'id_user' });

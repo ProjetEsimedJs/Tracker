@@ -19,6 +19,15 @@ router.get('/connection', async (req, res) => {
           email: 'elizavetaice123@gmail.com',
           password: 'qwerty'
       });
+      const ksu = await userRepository.createUser({
+          firstName: 'Ksu',
+          lastName: 'Ksu',
+          isAdmin: false,
+          age: 10,
+          nickname: 'ksuksu',
+          email: 'ksuksuksu@gmail.com',
+          password: 'ksuksu'
+      });
       const users = await User.findAll();
       res.status(200).send(users)
   } catch (E) {
@@ -42,18 +51,25 @@ router.get('/:firstName',guard.check(['admin']), async (req, res) => {
 });
 
 router.post('/',
-  body('firstName').isAlphanumeric(),
-  body('lastName').isAlphanumeric(),
-  body('password').isLength({ min: 5 }),
-  body('isAdmin').isAlphanumeric(),
+    body('firstName').isAlphanumeric().isLength({ min: 2 }),
+    body('lastName').isAlphanumeric().isLength({ min: 2 }),
+    body('nickname').isAlphanumeric().isLength({ min: 3 }),
+    body('age').isNumeric().isLength({ min: 1 }),
+    body('email').isEmail().isLength({ min: 5 }),
+    body('password').isLength({ min: 5 }),
+   body('isAdmin').isAlphanumeric(),
 
       async (req, res) => {
-      const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
-      }
-    await userRepository.createUser(req.body);
-    res.status(201).end();
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+        await userRepository.createUser(req.body);
+        res.status(201).end();
+    } catch (e) {
+        res.status(500).send(e)
+    }
 });
 
 router.put('/:id',guard.check(['admin']), async (req, res) => {

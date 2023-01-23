@@ -4,7 +4,7 @@ const {sequelize} = require('../models/sqlite.db');
 exports.User_task = sequelize.define('User_task', {
     // Model attributes are defined here
     id_user_task: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false
     },
@@ -15,12 +15,12 @@ exports.User_task = sequelize.define('User_task', {
         allowNull: false
     },
     id_level: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         foreignKey: true,
         allowNull: false
     },
     id_task: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         foreignKey: true,
         allowNull: false,
     },
@@ -38,3 +38,6 @@ exports.User_task = sequelize.define('User_task', {
     },
     tableName: 'User_task'
 });
+
+
+
