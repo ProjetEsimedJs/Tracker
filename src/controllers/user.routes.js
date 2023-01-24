@@ -13,7 +13,7 @@ router.get('/connection', async (req, res) => {
       const eliza = await userRepository.createUser({
           firstName: 'Yelyzaveta',
           lastName: 'Piunova',
-          isAdmin: false,
+          //isAdmin: false,
           age: 20,
           nickname: 'lizbet',
           email: 'elizavetaice123@gmail.com',
@@ -22,7 +22,7 @@ router.get('/connection', async (req, res) => {
       const ksu = await userRepository.createUser({
           firstName: 'Ksu',
           lastName: 'Ksu',
-          isAdmin: false,
+          //isAdmin: false,
           age: 10,
           nickname: 'ksuksu',
           email: 'ksuksuksu@gmail.com',
