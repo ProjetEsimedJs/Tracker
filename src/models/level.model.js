@@ -12,6 +12,6 @@ exports.Level = sequelize.define('Level', {
     name_level: {
         type: DataTypes.STRING(200),
         allowNull: false
-    },
+    },},{
     tableName: 'Level'
 });

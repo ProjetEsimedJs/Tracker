@@ -40,6 +40,7 @@ exports.User = sequelize.define('User', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
+},{
   tableName: 'User'
 });
 

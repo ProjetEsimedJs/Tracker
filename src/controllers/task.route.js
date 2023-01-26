@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const taskRepository = require('../models/task-repository');
 require('dotenv').config()
-
-
 const {Task} = require("../models/task.model");
+const taskRepository = require("../models/task-repository");
 
-router.get('/task', async (req, res) => {
+router.post('/post', async (req, res) => {
     try {
         await taskRepository.createTask({
             id_task : 1,
@@ -150,12 +148,35 @@ router.get('/task', async (req, res) => {
         });
 
 
-        const levels = await Task.findAll();
+        const tasks = await Task.findAll();
 
-        res.status(200).send(levels)
+        res.status(200).end()
     } catch (e) {
         res.status(500);
     }
 });
+
+router.get('/getAll', async (req, res) => {
+    try{
+        let task = await taskRepository.getAllTask();
+        res.status(200).send(task)
+    } catch (e) {
+        console.log(e)
+        res.status(500).send('Error')
+    }
+});
+
+router.get('/level/:id_level', async (req, res) => {
+    try{
+        let taskLevel = await taskRepository.getTaskLevel(req.params.id_level);
+        res.status(200).send(taskLevel)
+    } catch (e) {
+        console.log(e)
+        res.status(500).send('Error')
+    }
+});
+
+
+
 
 exports.initializeRoutes = () => router;

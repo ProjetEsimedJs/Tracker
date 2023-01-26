@@ -2,11 +2,17 @@
 const uuid = require('uuid');
 const { User } = require('../models/user.model.js');
 const bcrypt = require('bcryptjs');
+const {User_level} = require("./user_level.model");
 
 exports.getUsers = async () => await User.findAll();
 
+
 exports.getUserByEmail =  async (email) => {
   return await User.findOne({ where: { email }});
+};
+
+exports.getUserById =  async (id_user) => {
+  return await User.findOne({ where: { id_user }});
 };
 
 exports.createUser = async (body) => {

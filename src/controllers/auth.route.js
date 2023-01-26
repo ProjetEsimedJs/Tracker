@@ -16,20 +16,24 @@ router.post('/login',
     if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
     }
-  const foundUser = await userRepository.getUserByEmail(req.body.email);
-      console.log(foundUser)
+
+
+      const foundUser = await userRepository.getUserByEmail(req.body.email);
   const login = bcrypt.compareSync(req.body.password, foundUser.password);
 
   if(login === true){
     const token = jwt.sign({
-            user_id: foundUser.user_id,
-            firstName: foundUser.firstName,
-            lastName: foundUser.lastName,
-            nickname: foundUser.nickname,
-            age: foundUser.age,
-            email: foundUser.email,
+            id_user: foundUser.id_user,
+            // firstName: foundUser.firstName,
+            // lastName: foundUser.lastName,
+            // nickname: foundUser.nickname,
+            // age: foundUser.age,
+            // email: foundUser.email,
+            // password: foundUser.password,
       //  password
      // permissions : [foundUser.isAdmin ? 'admin' : '']
+        //get info id user
+        //
     },
      process.env.SECRET_KEY,  { expiresIn: process.env.JWT_EXPIRES_IN });
     res.status(200).send({token});

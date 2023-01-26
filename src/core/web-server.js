@@ -1,9 +1,13 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
 const userRoutes = require('../controllers/user.routes');
-const levelRoutes = require('../controllers/level.route');
+const levelRoutes = require('../controllers/user-level.route');
 const loginRoutes = require('../controllers/auth.route');
 const taskRoutes = require('../controllers/task.route');
+const userLevelRoutes =  require('../controllers/user-level.route');
+const userTaskRoutes =  require('../controllers/user-task.route');
+const levelsRoutes = require('../controllers/level.route');
+const tasksRoutes = require('../controllers/task.route');
 const { sequelize } = require('../models/sqlite.db');
 const dotenv = require('dotenv');
 const {User} = require("../models/user.model");
@@ -23,8 +27,8 @@ class WebServer {
     // User.belongsToMany(Task, {through: User_task, foreignKey : 'id_user'});
     // Task.belongsToMany(Level, {through: User_task, foreignKey : 'id_level'});
     dotenv.config()
-    // sequelize.sync();
-   sequelize.sync({force:true});
+   sequelize.sync();
+   // sequelize.sync({force:true});
 
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();
@@ -45,9 +49,15 @@ class WebServer {
   _initializeRoutes() {
     this.app.use('/users', userRoutes.initializeRoutes());
     this.app.use('/auth', loginRoutes.initializeRoutes());
-    this.app.use('/level', levelRoutes.initializeRoutes());
-    this.app.use('/task', taskRoutes.initializeRoutes());
+    // this.app.use('/level', levelRoutes.initializeRoutes());
+    // this.app.use('/task', taskRoutes.initializeRoutes());
+    this.app.use('/user-level', userLevelRoutes.initializeRoutes());
+    this.app.use('/levels',levelsRoutes.initializeRoutes());
+    this.app.use('/user-task',userTaskRoutes.initializeRoutes());
+    this.app.use('/tasks',tasksRoutes.initializeRoutes());
+
   }
 }
 
 module.exports = WebServer;
+

@@ -6,7 +6,8 @@ require('dotenv').config()
 
 const {Level} = require("../models/level.model");
 
-router.get('/level', async (req, res) => {
+
+router.post('/post', async (req, res) => {
     try {
         await levelRepository.createLevel({
             id_level : 1,
@@ -48,5 +49,17 @@ router.get('/level', async (req, res) => {
         res.status(500);
     }
 });
+
+router.get('/getAll', async (req, res) => {
+    try{
+    res.send( await levelRepository.getAllLevels());
+        res.status(200).end()
+    } catch (e) {
+        res.status(500).send('Error')
+    }
+});
+
+
+
 
 exports.initializeRoutes = () => router;

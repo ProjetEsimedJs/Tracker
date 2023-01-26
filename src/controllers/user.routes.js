@@ -4,6 +4,7 @@ const userRepository = require('../models/user-repository');
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const { User } = require('../models/user.model.js');
 const { body, validationResult } = require('express-validator');
+const {levelUserRepository} = require("../models/user-level-repository");
 const guard = require('express-jwt-permissions')({
   requestProperty: 'auth',
 });
@@ -30,10 +31,22 @@ router.get('/connection', async (req, res) => {
       });
       const users = await User.findAll();
       res.status(200).send(users)
-  } catch (E) {
+  } catch (e) {
       res.status(500).send('This name already in use')
   }
 });
+
+router.get('/info/:id_user', async (req, res) => {
+    const findUserId = await userRepository.getUserById(req.params.id_user);
+    console.log(req.params.id_user)
+    if(!findUserId) {
+        res.status(500).send('Id not found')
+        return
+    }
+    console.log(findUserId)
+    res.status(200).send(findUserId)
+});
+
 
 router.get('/', async (req, res) => {
   res.send( await userRepository.getUsers());
@@ -50,14 +63,15 @@ router.get('/:firstName',guard.check(['admin']), async (req, res) => {
   res.send(foundUser);
 });
 
-router.post('/',
+router.post('/create',
     body('firstName').isAlphanumeric().isLength({ min: 2 }),
     body('lastName').isAlphanumeric().isLength({ min: 2 }),
     body('nickname').isAlphanumeric().isLength({ min: 3 }),
     body('age').isNumeric().isLength({ min: 1 }),
     body('email').isEmail().isLength({ min: 5 }),
     body('password').isLength({ min: 5 }),
-   body('isAdmin').isAlphanumeric(),
+  // body('isAdmin').isAlphanumeric(),
+
 
       async (req, res) => {
     try {

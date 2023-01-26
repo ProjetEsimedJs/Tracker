@@ -19,5 +19,5 @@ exports.Task = sequelize.define('Task', {
         allowNull: false
     },
 },{
-    // tableName: 'Task'
+    tableName: 'Task'
 });
