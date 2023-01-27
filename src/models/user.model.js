@@ -25,7 +25,6 @@ exports.User = sequelize.define('User', {
   nickname: {
     type: DataTypes.STRING(20),
     allowNull: false,
-    unique: true,
   },
   age : {
     type: DataTypes.INTEGER,

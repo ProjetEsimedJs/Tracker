@@ -79,16 +79,40 @@ router.post('/create',
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-        await userRepository.createUser(req.body);
-        res.status(201).end();
+        const existingUser = await userRepository.getUserByEmail(req.body.email)
+        console.log(existingUser)
+        if(existingUser){
+         return   res.status(401).json({ error: "Unable to create the user" });
+
+        } else {
+            await userRepository.createUser(req.body);
+         return   res.status(201).end();
+        }
     } catch (e) {
         res.status(500).send(e)
     }
 });
 
-router.put('/:id',guard.check(['admin']), async (req, res) => {
-  await userRepository.updateUser(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
-  res.status(204).end();
+router.put('/update-user/:id_user',
+    async (req, res) => {
+    try {
+        let userUpdate = await userRepository.updateUser(req.params.id_user, req.body);
+        res.status(200).send(userUpdate);
+    } catch (e) {
+        console.log(e)
+        res.send(e).end();
+    }
+    });
+
+
+router.get('/update/:id_user', async (req, res) => {
+    const findUserId = await userRepository.getUserById(req.params.id_user);
+    if(!findUserId) {
+        res.status(500).send('Id not found')
+        return
+    }
+    console.log(findUserId)
+    res.status(200).send(findUserId)
 });
 
 router.delete('/:id', guard.check(['asmin']), async (req, res) => {
