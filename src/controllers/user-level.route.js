@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const levelUserRepository = require('../models/user-level-repository');
-const levelRepository = require('../models/level-repository');
+const levelUserRepository = require('../repositories/user-level-repository.js');
+const levelRepository = require('../repositories/level-repository.js');
+
 require('dotenv').config()
 
     router.post('/post', async (req, res) => {
-       try {
-            const start = Date.now();
-            const klm = await levelUserRepository.createUserlevel({
-                id_user_level: 3,
-                id_level: 1,
-                id_user: 'a4792539-1605-404e-a7ea-4e7355aaa4d1',
-                level_date_start: start,
-                level_date_end: start
-
-            });
+        try {
+            const start0 = Date.now();
+            const af = await levelUserRepository.createUserlevel({
+               id_user_level: 4,
+               id_level: 1,
+               id_user: '9bf48a5a-dbbf-4d97-ae18-16c2a62f6220',
+               level_date_start: start0,
+               level_date_end: start0
+           });
             res.status(200).end()
         } catch (e) {
             res.status(500).send(e)
@@ -42,7 +42,6 @@ router.get('/getAll', async (req, res) => {
 
 router.get('/:id_user', async (req, res) => {
     const foundUserLevel = await levelUserRepository.getLevelUser(req.params.id_user);
-    console.log(foundUserLevel)
 
     if (!foundUserLevel) {
         res.status(500).send('user not found');
@@ -50,6 +49,21 @@ router.get('/:id_user', async (req, res) => {
     }
     res.send(foundUserLevel);
 });
+
+
+router.post('/updateLevel/:id_user', async (req, res) => {
+    try{
+        let foundUserLevel = await levelUserRepository.getLevelUser(req.params.id_user);
+        foundUserLevel.id_level += 1;
+        let updatedLevel =  await foundUserLevel.update({ id_level: foundUserLevel.id_level });
+       console.log(updatedLevel);
+        res.status(200).send('User level updated successfully');
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('Error updating user level');
+    }
+})
+
 
 
 exports.initializeRoutes = () => router;

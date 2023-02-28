@@ -8,7 +8,7 @@ const userLevelRoutes =  require('../controllers/user-level.route');
 const userTaskRoutes =  require('../controllers/user-task.route');
 const levelsRoutes = require('../controllers/level.route');
 const tasksRoutes = require('../controllers/task.route');
-const { sequelize } = require('../models/sqlite.db');
+const { sequelize } = require('../models/database');
 const dotenv = require('dotenv');
 const {User} = require("../models/user.model");
 const {Task} = require("../models/task.model");
@@ -27,8 +27,8 @@ class WebServer {
     // User.belongsToMany(Task, {through: User_task, foreignKey : 'id_user'});
     // Task.belongsToMany(Level, {through: User_task, foreignKey : 'id_level'});
     dotenv.config()
-   sequelize.sync();
-   // sequelize.sync({force:true});
+    sequelize.sync();
+    // sequelize.sync({force:true});
 
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();

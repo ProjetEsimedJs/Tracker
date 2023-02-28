@@ -1,10 +1,11 @@
 const {DataTypes } = require('sequelize');
-const {sequelize} = require('../models/sqlite.db');
+const {sequelize} = require('./database');
 
 exports.User_task = sequelize.define('User_task', {
     // Model attributes are defined here
     id_user_task: {
         type: DataTypes.INTEGER,
+        autoIncrement : true,
         primaryKey: true,
         allowNull: false
     },

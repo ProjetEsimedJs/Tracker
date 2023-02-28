@@ -1,5 +1,5 @@
 const {DataTypes } = require('sequelize');
-const {sequelize} = require('../models/sqlite.db');
+const {sequelize} = require('./database');
 
 exports.User = sequelize.define('User', {
   // Model attributes are defined here
@@ -10,20 +10,20 @@ exports.User = sequelize.define('User', {
   //   nonNullable: true
   // },
   id_user: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(255),
     primaryKey: true,
     allowNull: false
   },
   firstName: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(255),
     allowNull: false
   },
   lastName: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(255),
     allowNull: false
   },
   nickname: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   age : {
@@ -31,12 +31,12 @@ exports.User = sequelize.define('User', {
     allowNull: false
   },
   email: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(255),
     allowNull: false,
     unique: true,
   },
   password: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(255),
     allowNull: false
   },
 },{

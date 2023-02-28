@@ -1,10 +1,11 @@
 const {DataTypes } = require('sequelize');
-const {sequelize} = require('../models/sqlite.db');
+const {sequelize} = require('./database');
 
 exports.User_level = sequelize.define('User_level', {
     // Model attributes are defined here
     id_user_level: {
         type: DataTypes.INTEGER,
+        autoIncrement : true,
         primaryKey: true,
         allowNull: false
     },
@@ -17,6 +18,7 @@ exports.User_level = sequelize.define('User_level', {
 
     id_level: {
         type: DataTypes.INTEGER,
+        defaultValue: 1,
         foreignKey: true,
         allowNull: false
     },

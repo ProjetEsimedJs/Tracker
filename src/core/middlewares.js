@@ -14,7 +14,12 @@ const guard = require('express-jwt-permissions')();
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 const middlewareStatic = (app) => app.use(express.static('public'));
-const middlewareCors = (app) => app.use(cors());
+ const corsOptions = {   origin: "*",   methods:
+       ['PUT'],   allowedHeaders:
+       "Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Origin,Cache-Control,Content-Type,X-Token,X-Refresh-Token",   credentials: true,   preflightContinue: false,
+   optionsSuccessStatus: 204 };
+const middlewareCors = (app) => app.use(cors(corsOptions));
+//const preFlight = (app) => app.options('*', (req,res) => {res.status(200).send("preflight request allowed")});
 const middleWareJwt = (app) => app.use(
   jwt({
     secret: process.env.SECRET_KEY,
@@ -46,6 +51,7 @@ exports.initializeConfigMiddlewares = (app) => {
   initLoggerMiddlware(app);
   middlewareStatic(app);
   middlewareCors(app);
+  //preFlight(app);
   //middleWareJwt(app);
   //middlewarePermissionsErrors(app);
 

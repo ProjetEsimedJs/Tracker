@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models/user.model.js');
-const userRepository = require('../models/user-repository');
+const userRepository = require('../repositories/user-repository');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
@@ -14,9 +14,9 @@ router.post('/login',
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
-      const foundUser = await userRepository.getUserByEmail(req.body.email);
+  const foundUser = await userRepository.getUserByEmail(req.body.email);
   const login = bcrypt.compareSync(req.body.password, foundUser.password);
 
   if(login === true){

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const userRepository = require('../models/user-repository');
+const userRepository = require('../repositories/user-repository');
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const { User } = require('../models/user.model.js');
 const { body, validationResult } = require('express-validator');
-const {levelUserRepository} = require("../models/user-level-repository");
+const {levelUserRepository} = require("../repositories/user-level-repository");
 const guard = require('express-jwt-permissions')({
   requestProperty: 'auth',
 });
@@ -48,7 +48,7 @@ router.get('/info/:id_user', async (req, res) => {
 });
 
 
-router.get('/', async (req, res) => {
+router.get('/getAll', async (req, res) => {
   res.send( await userRepository.getUsers());
 });
 
@@ -93,11 +93,13 @@ router.post('/create',
     }
 });
 
+
+
 router.put('/update-user/:id_user',
     async (req, res) => {
     try {
         let userUpdate = await userRepository.updateUser(req.params.id_user, req.body);
-        res.status(200).send(userUpdate);
+        res.status(201).send(userUpdate);
     } catch (e) {
         console.log(e)
         res.send(e).end();
@@ -105,17 +107,7 @@ router.put('/update-user/:id_user',
     });
 
 
-router.get('/update/:id_user', async (req, res) => {
-    const findUserId = await userRepository.getUserById(req.params.id_user);
-    if(!findUserId) {
-        res.status(500).send('Id not found')
-        return
-    }
-    console.log(findUserId)
-    res.status(200).send(findUserId)
-});
-
-router.delete('/:id', guard.check(['asmin']), async (req, res) => {
+router.delete('/:id', guard.check(['admin']), async (req, res) => {
   await userRepository.deleteUser(req.params.id);
   res.status(204).end();
 });
