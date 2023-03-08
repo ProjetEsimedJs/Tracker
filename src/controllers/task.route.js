@@ -6,149 +6,74 @@ const taskRepository = require("../repositories/task-repository");
 
 router.post('/post', async (req, res) => {
     try {
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "yoga"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "run"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "swim"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "read"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "listen"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "walk"
-        });
-        await taskRepository.createTask({
-            id_level : 1,
-            name_task: "go"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of sport"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of languages"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of food"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of music"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of culture"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of hobbies"
-        });
-        await taskRepository.createTask({
-            id_level : 2,
-            name_task: "Weeks of books"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of sport"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of languages"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of food"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name: "Weeks of music"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of culture"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of hobbies"
-        });
-        await taskRepository.createTask({
-            id_level : 3,
-            name_task: "Weeks of books"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of sport"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of languages"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of food"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of music"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of culture"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of hobbies"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of books"
-        });
+        const tasks = [
+            { id_level: 1, name_task: "yoga" },
+            { id_level: 1, name_task: "run" },
+            { id_level: 1, name_task: "swim" },
+            { id_level: 1, name_task: "read" },
+            { id_level: 1, name_task: "listen" },
+            { id_level: 1, name_task: "walk" },
+            { id_level: 1, name_task: "go" },
+            { id_level: 2, name_task: "Weeks of sport" },
+            { id_level: 2, name_task: "Weeks of languages" },
+            { id_level: 2, name_task: "Weeks of food" },
+            { id_level: 2, name_task: "Weeks of music" },
+            { id_level: 2, name_task: "Weeks of culture" },
+            { id_level: 2, name_task: "Weeks of hobbies" },
+            { id_level: 2, name_task: "Weeks of books" },
+            { id_level: 3, name_task: "Weeks of sport" },
+            { id_level: 3, name_task: "Weeks of languages" },
+            { id_level: 3, name_task: "Weeks of food" },
+            { id_level: 3, name_task: "Weeks of music" },
+            { id_level: 3, name_task: "Weeks of culture" },
+            { id_level: 3, name_task: "Weeks of hobbies" },
+            { id_level: 3, name_task: "Weeks of books" },
+            { id_level: 4, name_task: "Weeks of sport" },
+            { id_level: 4, name_task: "Weeks of languages" },
+            { id_level: 4, name_task: "Weeks of food" },
+            { id_level: 4, name_task: "Weeks of music" },
+            { id_level: 4, name_task: "Weeks of culture" },
+            { id_level: 4, name_task: "Weeks of hobbies" },
+            { id_level: 4, name_task: "Weeks of books" },
+            { id_level: 5, name_task: "Weeks of sport" },
+            { id_level: 5, name_task: "Weeks of languages" },
+            { id_level: 5, name_task: "Weeks of food" },
+            { id_level: 5, name_task: "Weeks of music" },
+            { id_level: 5, name_task: "Weeks of culture" },
+            { id_level: 5, name_task: "Weeks of hobbies" },
+            { id_level: 5, name_task: "Weeks of books" },
+            { id_level: 6, name_task: "Weeks of sport" },
+            { id_level: 6, name_task: "Weeks of languages" },
+            { id_level: 6, name_task: "Weeks of food" },
+            { id_level: 6, name_task: "Weeks of music" },
+            { id_level: 6, name_task: "Weeks of culture" },
+            { id_level: 6, name_task: "Weeks of hobbies" },
+            { id_level: 6, name_task: "Weeks of books" },
+            { id_level: 7, name_task: "Weeks of sport" },
+            { id_level: 7, name_task: "Weeks of languages" },
+            { id_level: 7, name_task: "Weeks of food" },
+            { id_level: 7, name_task: "Weeks of music" },
+            { id_level: 7, name_task: "Weeks of culture" },
+            { id_level: 7, name_task: "Weeks of hobbies" },
+            { id_level: 7, name_task: "Weeks of books" },
+            { id_level: 8, name_task: "Weeks of sport" },
+            { id_level: 8, name_task: "Weeks of languages" },
+            { id_level: 8, name_task: "Weeks of food" },
+            { id_level: 8, name_task: "Weeks of music" },
+            { id_level: 8, name_task: "Weeks of culture" },
+            { id_level: 8, name_task: "Weeks of hobbies" },
+            { id_level: 8, name_task: "Weeks of books" },
+        ];
 
-        res.status(200).end()
+        await Promise.all(tasks.map(task => taskRepository.createTask(task)));
+
+        res.status(200).end();
     } catch (e) {
-        res.status(500);
+        console.error(e);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-router.post('/post2', async (req, res) => {
-    try {
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of music"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of culture"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of hobbies"
-        });
-        await taskRepository.createTask({
-            id_level : 4,
-            name_task: "Weeks of books"
-        });
-
-        res.status(200).end()
-    } catch (e) {
-        res.status(500);
-    }
-});
 
 router.get('/getAll', async (req, res) => {
     try{

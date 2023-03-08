@@ -2,6 +2,7 @@
 const { User_level } = require('../models/user_level.model.js');
 const {isDate} = require("validator");
 const date = require('date-and-time')
+const {User} = require("../models/user.model");
 
 exports.getAllUserLevel = async () => await User_level.findAll();
 
@@ -12,6 +13,11 @@ exports.getLevelUser = async (id_user) => {
 
 exports.createUserlevel = async (body) => {
     await User_level.create(body);
+};
+
+exports.getUserLevelById =  async (id_user) => {
+    let foundedUserById = await User_level.findOne({ where: { id_user }});
+    return foundedUserById;
 };
 
 exports.createDefaultUserLevel = async (user) => {

@@ -6,39 +6,25 @@ require('dotenv').config()
 
 const {Level} = require("../models/level.model");
 
-
 router.post('/post', async (req, res) => {
+    const levelNames = [
+        "Weeks of sport",
+        "Weeks of languages",
+        "Weeks of food",
+        "Weeks of music",
+        "Weeks of culture",
+        "Weeks of hobbies",
+        "Weeks of books",
+        "Weeks of history",
+        "Bonus"
+    ];
+
     try {
-        await levelRepository.createLevel({
-            name_level: "Weeks of sport"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of languages"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of food"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of music"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of culture"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of hobbies"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of books"
-        });
-        await levelRepository.createLevel({
-            name_level: "Weeks of history"
-        });
-
+        await Promise.all(levelNames.map(name => levelRepository.createLevel({ name_level: name })));
         const levels = await Level.findAll();
-
-        res.status(200).send(levels)
+        res.status(200).send(levels);
     } catch (e) {
-        res.status(500);
+        res.status(500).send();
     }
 });
 

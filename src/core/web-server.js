@@ -23,12 +23,12 @@ class WebServer {
 
   constructor() {
     this.app = express();
-    // User.belongsToMany(Level, {through: User_level, foreignKey : 'id_user'});
-    // User.belongsToMany(Task, {through: User_task, foreignKey : 'id_user'});
-    // Task.belongsToMany(Level, {through: User_task, foreignKey : 'id_level'});
+    User.belongsToMany(Level, {through: User_level, foreignKey : 'id_user'});
+    User.belongsToMany(Task, {through: User_task, foreignKey : 'id_user'});
+    Task.belongsToMany(Level, {through: User_task, foreignKey : 'id_level'});
     dotenv.config()
     sequelize.sync();
-    // sequelize.sync({force:true});
+   //sequelize.sync({force:true});
 
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();

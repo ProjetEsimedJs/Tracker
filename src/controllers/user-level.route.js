@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const levelUserRepository = require('../repositories/user-level-repository.js');
 const levelRepository = require('../repositories/level-repository.js');
+const userRepository = require("../repositories/user-repository");
 
 require('dotenv').config()
 
@@ -51,7 +52,7 @@ router.get('/:id_user', async (req, res) => {
 });
 
 
-router.post('/updateLevel/:id_user', async (req, res) => {
+router.put('/updateLevel/:id_user', async (req, res) => {
     try{
         let foundUserLevel = await levelUserRepository.getLevelUser(req.params.id_user);
         foundUserLevel.id_level += 1;
@@ -64,6 +65,16 @@ router.post('/updateLevel/:id_user', async (req, res) => {
     }
 })
 
+
+router.get('/infoLevel/:id_user', async (req, res) => {
+    const findUserLevelId = await levelUserRepository.getUserLevelById(req.params.id_user);
+    console.log(req.params.id_user)
+    if(!findUserLevelId) {
+        res.status(500).send('Id not found')
+        return
+    }
+    res.status(200).send(findUserLevelId)
+});
 
 
 exports.initializeRoutes = () => router;

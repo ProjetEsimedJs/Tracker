@@ -53,7 +53,7 @@ router.get('/getAll', async (req, res) => {
 });
 
 router.get('/:id_user', async (req, res) => {
-    const foundUserTask = await taskUserRepository.getUserTask(req.params.id_user);
+    const foundUserTask = await taskUserRepository.getUserTaskById(req.params.id_user);
     console.log(foundUserTask)
 
     if (!foundUserTask) {
@@ -63,9 +63,9 @@ router.get('/:id_user', async (req, res) => {
     res.send(foundUserTask);
 });
 
-router.post('/updateTask/:id_user', async (req, res) => {
+router.put('/updateTask/:id_user', async (req, res) => {
     try{
-        let foundUserTask = await taskUserRepository.getUserTask(req.params.id_user);
+        let foundUserTask = await taskUserRepository.getUserTaskById(req.params.id_user);
         foundUserTask.id_task += 1;
         let updatedTasks =  await foundUserTask.update({ id_task: foundUserTask.id_task });
         console.log(updatedTasks);
@@ -76,5 +76,26 @@ router.post('/updateTask/:id_user', async (req, res) => {
     }
 })
 
+// router.put('/updateDefaultData/:id_user', async (req, res) => {
+//     try {
+//         const userId = req.params.id_user;
+//         let updatedDefaultData = taskUserRepository.updateUserTaskDefaultData(userId)
+//         console.log(updatedDefaultData)
+//         res.status(200).json({ message: 'User task updated successfully.' });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Internal server error.' });
+//     }
+// });
+
+router.get('/infoTask/:id_user', async (req, res) => {
+    const findUserTask = await taskUserRepository.getUserTaskById(req.params.id_user);
+    console.log(req.params.id_user)
+    if(!findUserTask) {
+        res.status(500).send('Id not found')
+        return
+    }
+    res.status(200).send(findUserTask)
+});
 
 exports.initializeRoutes = () => router;
