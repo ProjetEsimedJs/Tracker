@@ -25,7 +25,11 @@ exports.User_task = sequelize.define('User_task', {
         foreignKey: true,
         allowNull: false,
     },
-
+    checkBox: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
     task_date_start: {
         type: DataTypes.DATE,
         timestamp: true,

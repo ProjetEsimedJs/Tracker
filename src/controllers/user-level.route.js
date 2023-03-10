@@ -77,4 +77,17 @@ router.get('/infoLevel/:id_user', async (req, res) => {
 });
 
 
+router.put('/nextLevel/:id_user', async (req, res) => {
+    try{
+        let nextLevel = await levelUserRepository.setNextLevel(req.params.id_user);
+        console.log(nextLevel);
+        res.status(200).send('User level updated successfully');
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('Error updating user level');
+    }
+})
+
+
+
 exports.initializeRoutes = () => router;

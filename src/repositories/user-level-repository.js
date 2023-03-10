@@ -24,9 +24,19 @@ exports.createDefaultUserLevel = async (user) => {
     let now = new Date();
 
     await User_level.create({
-        id_user : user,
-        id_level : 1,
+        id_user: user,
+        id_level: 1,
         level_date_start: now,
-        level_date_end: date.addMinutes(now,1)
+        level_date_end: date.addMinutes(now, 1)
     });
 }
+    exports.setNextLevel = async (id_user) => {
+    let current_level = await this.getLevelUser(id_user);
+    await User_level.update({
+                id_level: current_level.id_level+1,
+    }, {where : {id_user}});
+
+    //requete qui prends en parametre le id_user, current_level + id_task et rajoute 1 à id_level et 7 a id_task
+};
+
+
