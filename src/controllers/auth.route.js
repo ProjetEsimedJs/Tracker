@@ -8,29 +8,34 @@ const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 
 router.post('/login',
-  body('email').isEmail(),
-  body('password').isLength({ min: 5 }),
+    body('email').isEmail(),
+    body('password').isLength({ min: 5 }),
 
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-  const foundUser = await userRepository.getUserByEmail(req.body.email);
-  const login = bcrypt.compareSync(req.body.password, foundUser.password);
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+            const foundUser = await userRepository.getUserByEmail(req.body.email);
+            const login = bcrypt.compareSync(req.body.password, foundUser.password);
 
-  if(login === true){
-    const token = jwt.sign({
-            id_user: foundUser.id_user,
-    },
-     process.env.SECRET_KEY,  { expiresIn: process.env.JWT_EXPIRES_IN });
-    res.status(200).send({token});
-  }
-  else{
-    res.sendStatus(401);
-  }
-  
-  });
+            if(login === true){
+                const token = jwt.sign({
+                        id_user: foundUser.id_user,
+                    },
+                    process.env.SECRET_KEY,  { expiresIn: process.env.JWT_EXPIRES_IN });
+                res.status(200).send({token});
+            }
+            else{
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal server error');
+        }
+    });
+
 
 
 exports.initializeRoutes = () => router;

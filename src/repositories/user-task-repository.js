@@ -1,7 +1,5 @@
 const { User_task } = require('../models/user_task.model.js');
 const date = require("date-and-time");
-const {User} = require("../models/user.model");
-const {User_level} = require("../models/user_level.model");
 
 exports.getAllUserTask = async () => await User_task.findAll();
 
@@ -37,7 +35,6 @@ exports.createUserTask = async (body) => {
 
 }
 
-
 exports.getUserTaskByIdTask = async (id_user, id_task) => {
     if (!id_task) {
         throw new Error('Invalid task ID');
@@ -60,28 +57,4 @@ exports.setNextTasks = async (id_user, id_task) => {
     }, {where: {id_user, id_task}});
 }
 
-
-// exports.updateUserTaskDefaultData = async (id_user) => {
-//     let userTasks = await this.getAllUserTask({
-//         where: {
-//             id_user: id_user,
-//         },
-//     });
-//
-//     let currentLevel = (await userLevelRepository.getLevelUser(id_user)).id_level
-//     for (const userTask of userTasks) {
-//         let currentTask = (await this.getUserTaskById(id_user))
-//         let currentTaskId = currentTask.id_task
-//         let currentTaskDateStart = currentTask.task_date_start
-//         let currentTaskDateEnd = currentTask.task_date_end
-//
-//         await userTask.update({
-//             id_level: currentLevel++,
-//             id_task: currentTaskId+7,
-//             task_date_start: currentTaskDateStart,
-//             task_date_end: currentTaskDateEnd,
-//         });
-//     }
-
-//};
 

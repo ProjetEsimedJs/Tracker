@@ -15,15 +15,15 @@ exports.User = sequelize.define('User', {
     allowNull: false
   },
   firstName: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(70),
     allowNull: false
   },
   lastName: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(70),
     allowNull: false
   },
   nickname: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(50),
     allowNull: false,
   },
   age : {
@@ -31,7 +31,7 @@ exports.User = sequelize.define('User', {
     allowNull: false
   },
   email: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(70),
     allowNull: false,
     unique: true,
   },

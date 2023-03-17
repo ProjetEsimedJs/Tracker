@@ -1,9 +1,7 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
 const userRoutes = require('../controllers/user.routes');
-const levelRoutes = require('../controllers/user-level.route');
 const loginRoutes = require('../controllers/auth.route');
-const taskRoutes = require('../controllers/task.route');
 const userLevelRoutes =  require('../controllers/user-level.route');
 const userTaskRoutes =  require('../controllers/user-task.route');
 const levelsRoutes = require('../controllers/level.route');
@@ -38,7 +36,6 @@ class WebServer {
     this.server = this.app.listen(this.port, () => {
       console.log(`Example app listening on port ${this.port}`);
     });
-    console.log(process.env.NODE_ENV);
   }
 
   stop() {
@@ -48,8 +45,6 @@ class WebServer {
   _initializeRoutes() {
     this.app.use('/users', userRoutes.initializeRoutes());
     this.app.use('/auth', loginRoutes.initializeRoutes());
-    // this.app.use('/level', levelRoutes.initializeRoutes());
-    // this.app.use('/task', taskRoutes.initializeRoutes());
     this.app.use('/user-level', userLevelRoutes.initializeRoutes());
     this.app.use('/levels',levelsRoutes.initializeRoutes());
     this.app.use('/user-task',userTaskRoutes.initializeRoutes());

@@ -21,19 +21,19 @@ router.post('/post', async (req, res) => {
 
     try {
         await Promise.all(levelNames.map(name => levelRepository.createLevel({ name_level: name })));
-        const levels = await Level.findAll();
-        res.status(200).send(levels);
+        await Level.findAll();
+        res.status(200).send('Post successful');
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send('Internal error');
     }
 });
 
 router.get('/getAll', async (req, res) => {
     try{
     res.send( await levelRepository.getAllLevels());
-        res.status(200).end()
+        res.status(200).end('Get successful')
     } catch (e) {
-        res.status(500).send('Error')
+        res.status(500).send('Internal error')
     }
 });
 

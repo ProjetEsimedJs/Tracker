@@ -1,8 +1,6 @@
 
 const { User_level } = require('../models/user_level.model.js');
-const {isDate} = require("validator");
 const date = require('date-and-time')
-const {User} = require("../models/user.model");
 
 exports.getAllUserLevel = async () => await User_level.findAll();
 
@@ -36,7 +34,6 @@ exports.createDefaultUserLevel = async (user) => {
                 id_level: current_level.id_level+1,
     }, {where : {id_user}});
 
-    //requete qui prends en parametre le id_user, current_level + id_task et rajoute 1 à id_level et 7 a id_task
 };
 
 

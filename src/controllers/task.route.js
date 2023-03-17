@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config()
-const {Task} = require("../models/task.model");
 const taskRepository = require("../repositories/task-repository");
 
 router.post('/post', async (req, res) => {
@@ -66,36 +65,23 @@ router.post('/post', async (req, res) => {
         ];
 
         await Promise.all(tasks.map(task => taskRepository.createTask(task)));
-
-        res.status(200).end();
+        res.status(200).end('Post successful');
     } catch (e) {
         console.error(e);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send('Internal error');
     }
 });
 
 
 router.get('/getAll', async (req, res) => {
     try{
-        let task = await taskRepository.getAllTask();
-        res.status(200).send(task)
+        await taskRepository.getAllTask();
+        res.status(200).send('Get successful')
     } catch (e) {
         console.log(e)
-        res.status(500).send('Error')
+        res.status(500).send('Internal error')
     }
 });
-
-router.get('/level/:id_level', async (req, res) => {
-    try{
-        let taskLevel = await taskRepository.getTaskLevel(req.params.id_level);
-        res.status(200).send(taskLevel)
-    } catch (e) {
-        console.log(e)
-        res.status(500).send('Error')
-    }
-});
-
-
 
 
 exports.initializeRoutes = () => router;
