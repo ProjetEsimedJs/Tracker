@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const levelRepository = require('../repositories/level-repository');
 require('dotenv').config()
-
-
 const {Level} = require("../models/level.model");
 
 router.post('/post', async (req, res) => {
@@ -28,12 +26,17 @@ router.post('/post', async (req, res) => {
     }
 });
 
-router.get('/getAll', async (req, res) => {
-    try{
-    res.send( await levelRepository.getAllLevels());
-        res.status(200).end('Get successful')
-    } catch (e) {
-        res.status(500).send('Internal error')
+router.get('/:id_level', async (req, res) => {
+    try {
+        const idLevel = await levelRepository.getNumberLevel(req.params.id_level);
+        if (!idLevel) {
+            res.status(500).send('level not found');
+            return;
+        }
+        res.send(idLevel);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
     }
 });
 

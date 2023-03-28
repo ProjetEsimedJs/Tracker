@@ -27,21 +27,6 @@ router.get('/getAll', async (req, res) => {
     }
 });
 
-router.get('/:id_user', async (req, res) => {
-    try {
-        const foundUserTask = await taskUserRepository.getUserTaskById(req.params.id_user);
-        if (!foundUserTask) {
-            res.status(500).send('user not found');
-            return;
-        }
-        res.send(foundUserTask);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-
     router.put('/updateCheckBox/:id_user/:id_task', async (req, res) => {
     const { id_user, id_task } = req.params;
 
@@ -53,6 +38,37 @@ router.get('/:id_user', async (req, res) => {
         }
 
         userTask.checkBox = !userTask.checkBox;
+        await userTask.save();
+
+        return res.send(userTask);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Internal server error');
+    }
+});
+
+router.put('/updateTimeTask/:id_user/:id_task', async (req, res) => {
+    const { id_user, id_task } = req.params;
+
+    try {
+        const userTask = await taskUserRepository.getUserTaskByIdTask(id_user, id_task);
+
+        if (!userTask) {
+            return res.status(404).send('User_task or User_id not found');
+        }
+
+        const date = new Date();
+        const dateParis = date.setHours(date.getHours() + 1);
+        // const options = {
+        //     day: 'numeric',
+        //     month: 'numeric',
+        //     year: 'numeric',
+        //     hour: 'numeric',
+        //     minute: 'numeric',
+        //     timeZone: 'Europe/Paris'
+        // };
+        // const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
+        userTask.task_date_end = dateParis
         await userTask.save();
 
         return res.send(userTask);

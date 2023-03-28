@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const userRepository = require('../repositories/user-repository');
 const { body, validationResult } = require('express-validator');
-const guard = require('express-jwt-permissions')({
-  requestProperty: 'auth',
-});
 
 router.get('/info/:id_user', async (req, res) => {
     try {

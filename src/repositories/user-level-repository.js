@@ -1,6 +1,5 @@
 
 const { User_level } = require('../models/user_level.model.js');
-const date = require('date-and-time')
 
 exports.getAllUserLevel = async () => await User_level.findAll();
 
@@ -19,13 +18,9 @@ exports.getUserLevelById =  async (id_user) => {
 };
 
 exports.createDefaultUserLevel = async (user) => {
-    let now = new Date();
-
     await User_level.create({
         id_user: user,
-        id_level: 1,
-        level_date_start: now,
-        level_date_end: date.addMinutes(now, 1)
+        id_level: 1
     });
 }
     exports.setNextLevel = async (id_user) => {

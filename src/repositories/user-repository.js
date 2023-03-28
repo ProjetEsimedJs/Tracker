@@ -2,12 +2,6 @@
 const uuid = require('uuid');
 const { User } = require('../models/user.model.js');
 const bcrypt = require('bcryptjs');
-const {User_level} = require("../models/user_level.model");
-const {Logger} = require("sequelize/lib/utils/logger");
-const {getLevel} = require("./level-repository");
-const {getLevelUser} = require("./user-level-repository.js");
-const date = require("date-and-time");
-const {User_task} = require("../models/user_task.model");
 const {createDefaultUserLevel} = require("./user-level-repository");
 const {createDefaultUserTask} = require("./user-task-repository");
 
@@ -30,7 +24,6 @@ exports.createUser = async (body) => {
   const user = body;
   let id = uuid.v4();
   user.id_user = id;
-  console.log('id user 1 : '+user.id_user)
   user.password = hashedPassword;
 
   await User.create(user);

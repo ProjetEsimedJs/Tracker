@@ -30,16 +30,10 @@ exports.User_task = sequelize.define('User_task', {
         defaultValue: false,
         allowNull: false,
     },
-    task_date_start: {
-        type: DataTypes.DATE,
-        timestamp: true,
-        //createdAt: true,
-        allowNull: false
-    },
     task_date_end: {
         type: DataTypes.DATE,
         timestamp: true,
-        allowNull: false
+        allowNull: true
     },},{
     tableName: 'User_task'
 });

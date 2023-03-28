@@ -22,17 +22,6 @@ exports.User_level = sequelize.define('User_level', {
         foreignKey: true,
         allowNull: false
     },
-    level_date_start: {
-        type: DataTypes.DATE,
-        timestamp: true,
-        allowNull: false
-    },
-    level_date_end: {
-        type: DataTypes.DATE,
-        timestamp: true,
-        allowNull: false
-    },
 },{
     tableName: 'User_level'
 });
-//belongsToMany(models.User, { through: 'id_user' });

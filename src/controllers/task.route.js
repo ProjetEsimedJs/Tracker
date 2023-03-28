@@ -73,13 +73,17 @@ router.post('/post', async (req, res) => {
 });
 
 
-router.get('/getAll', async (req, res) => {
-    try{
-        await taskRepository.getAllTask();
-        res.status(200).send('Get successful')
-    } catch (e) {
-        console.log(e)
-        res.status(500).send('Internal error')
+router.get('/:id_task', async (req, res) => {
+    try {
+        const idTask = await taskRepository.getNumberTask(req.params.id_task);
+        if (!idTask) {
+            res.status(500).send('task not found');
+            return;
+        }
+        res.send(idTask);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
     }
 });
 
