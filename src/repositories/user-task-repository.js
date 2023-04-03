@@ -8,6 +8,11 @@ exports.getAllTaskOfLevel = async (id_user) => {
     return tasks;
 };
 
+exports.getUserTaskById = async (id_user) => {
+    let tasks = await User_task.findOne({ where: { id_user }});
+    return tasks;
+};
+
 exports.createUserTask = async (body) => {
     await User_task.create(body);
 };

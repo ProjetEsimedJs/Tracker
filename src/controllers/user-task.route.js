@@ -27,6 +27,21 @@ router.get('/getAll', async (req, res) => {
     }
 });
 
+router.get('/:id_user', async (req, res) => {
+    try {
+        const foundUserTask = await taskUserRepository.getUserTaskById(req.params.id_user);
+        if (!foundUserTask) {
+            res.status(500).send('user not found');
+            return;
+        }
+        res.send(foundUserTask);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
     router.put('/updateCheckBox/:id_user/:id_task', async (req, res) => {
     const { id_user, id_task } = req.params;
 

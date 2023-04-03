@@ -40,7 +40,6 @@ exports.updateUser =  async (id_user, data)  => {
   if (!foundUser) {
     throw new Error('User not found');
   }
-
   let salt = bcrypt.genSaltSync(10);
   let hashedPassword = bcrypt.hashSync(data.password, salt);
   await User.update({
