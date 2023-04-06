@@ -55,7 +55,7 @@ router.get('/:id_user', async (req, res) => {
         userTask.checkBox = !userTask.checkBox;
         await userTask.save();
 
-        return res.send(userTask);
+        return res.status(200).send(userTask);
     } catch (error) {
         console.error(error);
         return res.status(500).send('Internal server error');
@@ -103,7 +103,7 @@ router.get('/getIdTask/:id_user/:id_task', async (req, res) => {
             return res.status(404).send('User_task or User_id not found');
         }
 
-        return res.send(userTask);
+        return res.status(200).send(userTask);
     } catch (error) {
         console.error(error);
         return res.status(500).send('Internal server error');

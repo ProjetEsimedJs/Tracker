@@ -36,7 +36,7 @@ router.get('/:id_user', async (req, res) => {
             res.status(500).send('user not found');
             return;
         }
-        res.send(foundUserLevel);
+        res.status(200).send(foundUserLevel);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');

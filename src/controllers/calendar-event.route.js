@@ -17,6 +17,7 @@ async (req, res) => {
             {
                 let id_user =  req.params.id_user
                 let event = req.body
+                console.log(event)
                 event.id_user = id_user
                 await calendarRepository.createCalendarEvent(req.body);
                 return   res.status(200).end('Event created successfully');
