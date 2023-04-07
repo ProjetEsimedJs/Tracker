@@ -3,6 +3,22 @@ const router = express.Router();
 require('dotenv').config()
 const taskRepository = require("../repositories/task-repository");
 
+router.post('/seeder-task', async (req, res) => {
+    const task =
+        {
+            id_level: 1,
+            name_level: 'Beginner task',
+        };
+
+    try {
+        await taskRepository.createTask(task);
+        res.status(200).send('Seeded task successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed task.');
+    }
+});
+
 router.post('/post', async (req, res) => {
     try {
         const tasks = [

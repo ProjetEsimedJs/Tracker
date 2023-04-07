@@ -39,7 +39,15 @@ const tokenMiddlware = (app) => {
       jwt({
         secret: process.env.SECRET_KEY,
         algorithms: ["HS256"],
-      }).unless({ path: [{ url: "/users/create", methods: ["POST"] },{ url: "/auth/login", methods: ["POST"] }] })
+      }).unless(
+          { path: [{ url: "/users/create", methods: ["POST"] },
+              { url: "/auth/login", methods: ["POST"] },
+              { url: "/users/seeder-user", methods: ["POST"] },
+              { url: "/calendar-event/seeder-calendar", methods: ["POST"] },
+              { url: "/levels/seeder-level", methods: ["POST"] },
+              { url: "/tasks/seeder-task", methods: ["POST"] },
+              { url: "/user-level/seeder-level-user", methods: ["POST"] },
+              { url: "/user-task/seeder-task-user", methods: ["POST"] }] })
   );
 }
 

@@ -5,6 +5,22 @@ const levelRepository = require('../repositories/level-repository.js');
 
 require('dotenv').config()
 
+
+router.post('/seeder-level-user', async (req, res) => {
+    const level_user =
+        {
+            id_level: 1,
+        };
+
+    try {
+        await levelUserRepository.createUserlevel(level_user);
+        res.status(200).send('Seeded level_user successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed level_user.');
+    }
+});
+
 router.get('/get-level/:id_level', async (req, res) => {
     try {
         const foundLevel = await levelRepository.getLevel(req.params.id_level);

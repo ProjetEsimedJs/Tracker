@@ -3,6 +3,26 @@ const router = express.Router();
 const userRepository = require('../repositories/user-repository');
 const { body, validationResult } = require('express-validator');
 
+router.post('/seeder-user', async (req, res) => {
+    const user =
+        {
+            firstName: 'User',
+            lastName: 'User1',
+            nickname: 'test',
+            age: 25,
+            email: 'seeder@example.com',
+            password: 'password'
+        };
+
+    try {
+        await userRepository.createUser(user);
+        res.status(200).send('Seeded users successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed users.');
+    }
+});
+
 router.get('/info/:id_user', async (req, res) => {
     try {
         const findUserId = await userRepository.getUserById(req.params.id_user);

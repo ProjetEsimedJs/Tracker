@@ -3,6 +3,23 @@ const router = express.Router();
 const calendarRepository = require('../repositories/calendar-event-repository');
 const {body, validationResult} = require("express-validator");
 
+router.post('/seeder-calendar', async (req, res) => {
+    const event =
+        {
+            date_event : Date.now(),
+            title_event : "Test event"
+
+        };
+
+    try {
+        await calendarRepository.createCalendarEvent(event);
+        res.status(200).send('Seeded calendar_event successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed calendar_event.');
+    }
+});
+
 router.post('/post-event/:id_user',
     // body('title_event').isAlphanumeric().isLength({ min: 2 }),
    // body('date_event').isDate().isLength({ min: 1 }),

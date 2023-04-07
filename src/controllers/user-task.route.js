@@ -4,6 +4,25 @@ const taskUserRepository = require('../repositories/user-task-repository');
 const taskRepository = require('../repositories/task-repository');
 require('dotenv').config()
 
+router.post('/seeder-task-user', async (req, res) => {
+    const task_user =
+        {
+            id_level: 1,
+            id_task: 1,
+            checkBox: false,
+            task_date_end : Date.now()
+
+        };
+
+    try {
+        await taskRepository.createTask(task_user);
+        res.status(200).send('Seeded task_user successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed task_user.');
+    }
+});
+
 router.get('/get-task/:id_task', async (req, res) => {
     try {
         const foundTask = await taskRepository.getTask(req.params.id_task);

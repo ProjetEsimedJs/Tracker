@@ -4,6 +4,24 @@ const levelRepository = require('../repositories/level-repository');
 require('dotenv').config()
 const {Level} = require("../models/level.model");
 
+
+
+router.post('/seeder-level', async (req, res) => {
+    const level =
+        {
+            name_level: 'Beginner level',
+        };
+
+    try {
+        await levelRepository.createLevel(level);
+        res.status(200).send('Seeded level successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed level.');
+    }
+});
+
+
 router.post('/post', async (req, res) => {
     const levelNames = [
         "Weeks of sport",

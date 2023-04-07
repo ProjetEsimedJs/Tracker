@@ -18,8 +18,8 @@ const {Calendar_event}  = require("../models/calendar_event.model");
 
 
 class WebServer {
-  app = undefined;
-  port = 3000;
+  app = process.env.APP;
+  port = process.env.PORT;
   server = undefined;
 
   constructor() {
