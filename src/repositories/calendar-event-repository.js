@@ -6,7 +6,7 @@ exports.getAllUserEvents =  async (id_user) => {
     let array = []
 
     foundedUserById.forEach(event => {
-        array.push({Date : event.date_event, Title:event.title_event})
+        array.push({Date : event.date_event, Title:event.title_event, Link:event.id_event_calendar})
     })
 
     return array;
@@ -15,6 +15,17 @@ exports.getAllUserEvents =  async (id_user) => {
 exports.getEventOfUser =  async (id_user, id_event_calendar) => {
     let foundedEvent = await Calendar_event.findOne({ where: { id_user, id_event_calendar }});
     return foundedEvent;
+};
+
+
+exports.deleteEvent = async (id_event_calendar) => {
+    let deletedEvent = await Calendar_event.findOne({ where: { id_event_calendar }});
+
+    if (deletedEvent) {
+        await Calendar_event.destroy({ where: { id_event_calendar }});
+    }
+
+    return deletedEvent;
 };
 
 

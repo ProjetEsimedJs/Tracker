@@ -1,5 +1,5 @@
 const { Calendar_event } = require('../models/calendar_event.model');
-const { getEventOfUser, createCalendarEvent  } = require('../repositories/calendar-event-repository');
+const { getEventOfUser, createCalendarEvent, deleteEvent  } = require('../repositories/calendar-event-repository');
 
     describe('test calendar-event-repository getEventOfUser', () => {
             it('should return the event with the given id_user and id_event_calendar', async () => {
@@ -17,7 +17,25 @@ const { getEventOfUser, createCalendarEvent  } = require('../repositories/calend
                 expect(result).toEqual(expectedEvent);
     });
 
-            it('should return null if no event is found', async () => {
+        it('should delete the event with the given id_event_calendar', async () => {
+            const id_event_calendar = 1;
+            const expectedDeletedEvent = {
+                id_event_calendar: 1,
+                id_user: 'test-user-id',
+                date_event: new Date('2023-04-01T00:00:00.000Z'),
+                title_event: 'Test event'
+            };
+            jest.spyOn(Calendar_event, 'findOne').mockResolvedValue(expectedDeletedEvent);
+            jest.spyOn(Calendar_event, 'destroy').mockResolvedValue(1);
+
+            const result = await deleteEvent(id_event_calendar);
+
+            expect(Calendar_event.findOne).toHaveBeenCalledWith({ where: { id_event_calendar }});
+            expect(Calendar_event.destroy).toHaveBeenCalledWith({ where: { id_event_calendar }});
+            expect(result).toEqual(expectedDeletedEvent);
+        });
+
+        it('should return null if no event is found', async () => {
                 const id_user = 'test-user-id';
                 const id_event_calendar = 1;
                 jest.spyOn(Calendar_event, 'findOne').mockResolvedValue(null);

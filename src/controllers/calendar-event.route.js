@@ -74,6 +74,22 @@ async (req, res) => {
     }
 });
 
+router.delete('/deleteUserEvent/:id_event_calendar', async (req, res) => {
+    const { id_event_calendar } = req.params;
+
+    try {
+        const deletedEvent = await calendarRepository.deleteEvent(id_event_calendar);
+
+        if (!deletedEvent) {
+            return res.status(404).send('Event not found');
+        }
+
+        return res.send('Event deleted successfully');
+    } catch (error) {
+        return res.status(500).send('Internal server error');
+    }
+});
+
 router.put('/update-calendar-event/:id_event_calendar',
     async (req, res) => {
         const id_event_calendar  = req.params.id_event_calendar;

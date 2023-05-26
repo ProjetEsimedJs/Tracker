@@ -24,15 +24,14 @@ router.post('/seeder-level', async (req, res) => {
 
 router.post('/post', async (req, res) => {
     const levelNames = [
-        "Weeks of sport",
-        "Weeks of languages",
-        "Weeks of food",
-        "Weeks of music",
-        "Weeks of culture",
-        "Weeks of hobbies",
-        "Weeks of books",
-        "Weeks of history",
-        "Bonus"
+        "Semaine sportive",
+        "Semaine culturelle",
+        "Semaine d'apprentisage",
+        "Semaine d'hobbies",
+        "Semaine nutritionnelle",
+        "Semaine de soins personelles",
+        "Semaine sociable",
+        "Semaine menage de printemps"
     ];
 
     try {

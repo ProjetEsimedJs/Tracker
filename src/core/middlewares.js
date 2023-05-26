@@ -41,13 +41,15 @@ const tokenMiddlware = (app) => {
         algorithms: ["HS256"],
       }).unless(
           { path: [{ url: "/users/create", methods: ["POST"] },
-              { url: "/auth/login", methods: ["POST"] },
-              { url: "/users/seeder-user", methods: ["POST"] },
-              { url: "/calendar-event/seeder-calendar", methods: ["POST"] },
-              { url: "/levels/seeder-level", methods: ["POST"] },
-              { url: "/tasks/seeder-task", methods: ["POST"] },
-              { url: "/user-level/seeder-level-user", methods: ["POST"] },
-              { url: "/user-task/seeder-task-user", methods: ["POST"] }] })
+                  { url: "/auth/login", methods: ["POST"] },
+                  { url: "/users/seeder-user", methods: ["POST"] },
+                  { url: "/calendar-event/seeder-calendar", methods: ["POST"] },
+                  { url: "/levels/seeder-level", methods: ["POST"] },
+                  { url: "/tasks/seeder-task", methods: ["POST"] },
+                  { url: "/user-level/seeder-level-user", methods: ["POST"] },
+                  { url: "/levels/post", methods: ["POST"]},
+                  { url: "/tasks/post", methods: ["POST"]},
+                  { url: "/user-task/seeder-task-user", methods: ["POST"] }] }),
   );
 }
 
