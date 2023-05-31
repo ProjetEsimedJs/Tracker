@@ -25,7 +25,7 @@ exports.deleteEvent = async (id_event_calendar) => {
         await Calendar_event.destroy({ where: { id_event_calendar }});
     }
 
-    return deletedEvent;
+    return true;
 };
 
 

@@ -113,7 +113,9 @@ router.put('/updateTimeTask/:id_user/:id_task', async (req, res) => {
 });
 
 router.get('/getIdTask/:id_user/:id_task', async (req, res) => {
-    const { id_user, id_task } = req.params;
+    const id_user = req.params.id_user
+    const id_task = req.params.id_task
+
 
     try {
         const userTask = await taskUserRepository.getUserTaskByIdTask(id_user, id_task);
