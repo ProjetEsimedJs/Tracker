@@ -29,7 +29,7 @@ class WebServer {
     User.hasMany( Calendar_event,{ foreignKey : 'id_user'});
     Task.belongsToMany(Level, {through: User_task, foreignKey : 'id_level'});
     dotenv.config()
-    sequelize.sync();
+   sequelize.sync();
     //sequelize.sync({force:true});
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();

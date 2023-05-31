@@ -21,10 +21,6 @@ router.post('/seeder-calendar', async (req, res) => {
 });
 
 router.post('/post-event/:id_user',
-    // body('title_event').isAlphanumeric().isLength({ min: 2 }),
-   // body('date_event').isDate().isLength({ min: 1 }),
-   //  body('date_event').matches(/^(\d{4})-(\d{2})-(\d{2})$/).isDate().withMessage('Date must be in the format of YYYY-MM-DD'),
-
 async (req, res) => {
         try {
             const errors = validationResult(req);

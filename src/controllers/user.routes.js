@@ -82,8 +82,7 @@ router.put('/update-user/:id_user',
         let userUpdate = await userRepository.updateUser(req.params.id_user, req.body);
         res.status(201).send(userUpdate);
     } catch (e) {
-        console.log(e)
-        res.send(e).end();
+        res.status(500).send(e)
     }
     });
 

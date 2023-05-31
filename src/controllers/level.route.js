@@ -5,6 +5,25 @@ require('dotenv').config()
 const {Level} = require("../models/level.model");
 
 
+router.get('/all-levels', async (req, res) => {
+    try {
+        const nameLevels = [];
+
+        for (let i = 1; i <= 8; i++) {
+            nameLevels.push(await levelRepository.getLevel(i));
+        }
+
+        if (nameLevels.length === 0) {
+            res.status(400).send('Levels not found').end();
+            return;
+        }
+
+        res.status(200).send(nameLevels).end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error in getting levels').end();
+    }
+});
 
 router.post('/seeder-level', async (req, res) => {
     const level =
@@ -56,6 +75,8 @@ router.get('/:id_level', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+
 
 
 
