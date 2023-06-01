@@ -76,15 +76,31 @@ router.post('/create',
     }
 });
 
-router.put('/update-user/:id_user',
-    async (req, res) => {
+router.put('/update-user/:id_user', async (req, res) => {
     try {
-        let userUpdate = await userRepository.updateUser(req.params.id_user, req.body);
-        res.status(201).send(userUpdate);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const existingUser = await userRepository.getUserByEmailUpdate(
+            req.body.email,
+            req.params.id_user
+        );
+        if (existingUser) {
+            return res.status(401).json({ error: "Unable to create the user" });
+        } else {
+            const userId = req.params.id_user;
+            const updatedUser = req.body;
+
+            let userUpdate = await userRepository.updateUser(userId, updatedUser);
+            res.status(201).send(userUpdate);
+        }
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send(e);
     }
-    });
+});
+
 
 
 // router.delete('/:id', guard.check(['admin']), async (req, res) => {

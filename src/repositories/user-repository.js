@@ -4,6 +4,8 @@ const { User } = require('../models/user.model.js');
 const bcrypt = require('bcryptjs');
 const {createDefaultUserLevel} = require("./user-level-repository");
 const {createDefaultUserTask} = require("./user-task-repository");
+const { Op } = require('sequelize');
+
 
 exports.getUsers = async () => await User.findAll();
 
@@ -12,6 +14,18 @@ exports.getUserByEmail =  async (email) => {
   let foundedUserByEmail = await User.findOne({ where: { email }});
   return foundedUserByEmail;
 };
+
+exports.getUserByEmailUpdate = async (email, userId) => {
+  let foundedUserByEmail = await User.findOne({
+    where: {
+      email,
+      id_user: { [Op.ne]: userId }
+    }
+  });
+  return foundedUserByEmail;
+};
+
+
 
 exports.getUserById =  async (id_user) => {
   let foundedUserById = await User.findOne({ where: { id_user }});

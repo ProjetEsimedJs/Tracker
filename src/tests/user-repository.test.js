@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const { createUser } = require('../repositories/user-repository');
-const { getUserByEmail, getUserById, getUsers } = require('../repositories/user-repository');
+const { getUserByEmailUpdate, getUserById, getUsers } = require('../repositories/user-repository');
 const { User } = require('../models/user.model');
 
 // jest.mock('bcryptjs');
@@ -51,7 +51,7 @@ describe('testing getUserByEmail', () => {
             password: 'password'
         };
         jest.spyOn(User, 'findOne').mockResolvedValue(user);
-        const result = await getUserByEmail(email);
+        const result = await getUserByEmailUpdate(email);
 
         expect(User.findOne).toHaveBeenCalledWith({ where: { email } });
         expect(result).toEqual(user);

@@ -2,13 +2,6 @@ const {DataTypes } = require('sequelize');
 const {sequelize} = require('./database');
 
 exports.User = sequelize.define('User', {
-  // Model attributes are defined here
-  // isAdmin: {
-  //   type: DataTypes.BOOLEAN,
-  //   primaryKey: false,
-  //   allowNull: false,
-  //   nonNullable: true
-  // },
   id_user: {
     type: DataTypes.STRING(255),
     primaryKey: true,
