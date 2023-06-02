@@ -107,6 +107,7 @@ router.get('/:id_task', async (req, res) => {
 router.delete('/deleteTasks', async (req, res) => {
     try {
          await taskRepository.deleteAllTasks();
+        res.status(200).send('ok');
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');

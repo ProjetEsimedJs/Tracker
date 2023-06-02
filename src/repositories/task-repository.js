@@ -21,10 +21,12 @@ exports.getTaskLevel = async (id_level) => {
 
 exports.deleteAllTasks = async () => {
     try {
-        await Task.destroy({
-            where: {},
-            truncate: true
-        });
+        let tasks = await Task.findAll()
+
+        for (const task of tasks) {
+            let id_task = task.id_task
+            await Task.destroy({where: {id_task}})
+        }
 
         return true;
     } catch (error) {
