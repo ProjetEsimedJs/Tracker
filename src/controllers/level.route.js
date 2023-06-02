@@ -1,52 +1,84 @@
 const express = require('express');
 const router = express.Router();
-const levelRepository = require('../models/level-repository');
+const levelRepository = require('../repositories/level-repository');
 require('dotenv').config()
-
-
 const {Level} = require("../models/level.model");
 
-router.get('/level', async (req, res) => {
+
+router.get('/all-levels', async (req, res) => {
     try {
-        await levelRepository.createLevel({
-            id_level : 1,
-            name_level: "Weeks of sport"
-        });
-        await levelRepository.createLevel({
-            id_level : 2,
-            name_level: "Weeks of languages"
-        });
-        await levelRepository.createLevel({
-            id_level : 3,
-            name_level: "Weeks of food"
-        });
-        await levelRepository.createLevel({
-            id_level : 4,
-            name_level: "Weeks of music"
-        });
-        await levelRepository.createLevel({
-            id_level : 5,
-            name_level: "Weeks of culture"
-        });
-        await levelRepository.createLevel({
-            id_level : 6,
-            name_level: "Weeks of hobbies"
-        });
-        await levelRepository.createLevel({
-            id_level : 7,
-            name_level: "Weeks of books"
-        });
-        await levelRepository.createLevel({
-            id_level : 8,
-            name_level: "Weeks of history"
-        });
+        const nameLevels = [];
 
-        const levels = await Level.findAll();
+        for (let i = 1; i <= 8; i++) {
+            nameLevels.push(await levelRepository.getLevel(i));
+        }
 
-        res.status(200).send(levels)
-    } catch (e) {
-        res.status(500);
+        if (nameLevels.length === 0) {
+            res.status(400).send('Levels not found').end();
+            return;
+        }
+
+        res.status(200).send(nameLevels).end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error in getting levels').end();
     }
 });
+
+router.post('/seeder-level', async (req, res) => {
+    const level =
+        {
+            name_level: 'Beginner level',
+        };
+
+    try {
+        await levelRepository.createLevel(level);
+        res.status(200).send('Seeded level successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed level.');
+    }
+});
+
+
+router.post('/post', async (req, res) => {
+    const levelNames = [
+        "Semaine sportive",
+        "Semaine culturelle",
+        "Semaine d'apprentisage",
+        "Semaine d'hobbies",
+        "Semaine nutritionnelle",
+        "Semaine de soins personelles",
+        "Semaine sociable",
+        "Semaine menage de printemps"
+    ];
+
+    try {
+        await Promise.all(levelNames.map(name => levelRepository.createLevel({ name_level: name })));
+        await Level.findAll();
+        res.status(200).send('Post successful');
+    } catch (e) {
+        res.status(500).send('Internal error');
+    }
+});
+
+router.get('/:id_level', async (req, res) => {
+    try {
+        const idLevel = await levelRepository.getNumberLevel(req.params.id_level);
+        if (!idLevel) {
+            res.status(500).send('level not found');
+            return;
+        }
+        res.send(idLevel);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
+
+
+
 
 exports.initializeRoutes = () => router;

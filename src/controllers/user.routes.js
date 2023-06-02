@@ -1,69 +1,117 @@
 const express = require('express');
 const router = express.Router();
-const userRepository = require('../models/user-repository');
-const { Sequelize, Model, DataTypes } = require('sequelize');
-const { User } = require('../models/user.model.js');
+const userRepository = require('../repositories/user-repository');
 const { body, validationResult } = require('express-validator');
-const guard = require('express-jwt-permissions')({
-  requestProperty: 'auth',
+
+router.post('/seeder-user', async (req, res) => {
+    const user =
+        {
+            firstName: 'User',
+            lastName: 'User1',
+            nickname: 'test',
+            age: 25,
+            email: 'seeder@example.com',
+            password: 'password'
+        };
+
+    try {
+        await userRepository.createUser(user);
+        res.status(200).send('Seeded users successfully!');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Failed to seed users.');
+    }
 });
 
-router.get('/connection', async (req, res) => {
-  try {
-      const eliza = await userRepository.createUser({
-          firstName: 'Yelyzaveta',
-          lastName: 'Piunova',
-          isAdmin: false,
-          age: 20,
-          nickname: 'lizbet',
-          email: 'elizavetaice123@gmail.com',
-          password: 'qwerty'
-      });
-      const users = await User.findAll();
-      res.status(200).send(users)
-  } catch (E) {
-      res.status(500).send('This name already in use')
-  }
+router.get('/info/:id_user', async (req, res) => {
+    try {
+        const findUserId = await userRepository.getUserById(req.params.id_user);
+        if (!findUserId) {
+            res.status(500).send('Id not found');
+            return;
+        }
+        res.status(200).send(findUserId);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
 });
 
-router.get('/', async (req, res) => {
-  res.send( await userRepository.getUsers());
+
+router.get('/getAll', async (req, res) => {
+    try {
+        const users = await userRepository.getUsers();
+        res.send(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
 });
 
-router.get('/:firstName',guard.check(['admin']), async (req, res) => {
-  const foundUser = await userRepository.getUserByFirstName(req.params.firstName);
-
-  if (!foundUser) {
-    res.status(500).send('User not found');
-    return;
-  }
-  
-  res.send(foundUser);
-});
-
-router.post('/',
-  body('firstName').isAlphanumeric(),
-  body('lastName').isAlphanumeric(),
-  body('password').isLength({ min: 5 }),
-  body('isAdmin').isAlphanumeric(),
-
+router.post('/create',
+    body('firstName').isAlphanumeric().isLength({ min: 2 }),
+    body('lastName').isAlphanumeric().isLength({ min: 2 }),
+    body('nickname').isAlphanumeric().isLength({ min: 3 }),
+    body('age').isNumeric().isLength({ min: 1 }),
+    body('email').isEmail().isLength({ min: 5 }),
+    body('password').isLength({ min: 5 }),
+  // body('isAdmin').isAlphanumeric(),
       async (req, res) => {
-      const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
-      }
-    await userRepository.createUser(req.body);
-    res.status(201).end();
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+        const existingUser = await userRepository.getUserByEmail(req.body.email)
+        console.log(existingUser)
+        if(existingUser){
+         return   res.status(401).json({ error: "Unable to create the user" });
+
+        } else {
+            await userRepository.createUser(req.body);
+         return   res.status(201).end('Created successfully');
+        }
+    } catch (e) {
+        res.status(500).send(e)
+    }
 });
 
-router.put('/:id',guard.check(['admin']), async (req, res) => {
-  await userRepository.updateUser(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
-  res.status(204).end();
+router.put('/update-user/:id_user', async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const existingUser = await userRepository.getUserByEmailUpdate(
+            req.body.email,
+            req.params.id_user
+        );
+        if (existingUser) {
+            return res.status(401).json({ error: "Unable to create the user" });
+        } else {
+            const userId = req.params.id_user;
+            const updatedUser = req.body;
+
+            let userUpdate = await userRepository.updateUser(userId, updatedUser);
+            res.status(201).send(userUpdate);
+        }
+    } catch (e) {
+        res.status(500).send(e);
+    }
 });
 
-router.delete('/:id', guard.check(['asmin']), async (req, res) => {
-  await userRepository.deleteUser(req.params.id);
-  res.status(204).end();
-});
+
+
+// router.delete('/:id', guard.check(['admin']), async (req, res) => {
+//     try {
+//         await userRepository.deleteUser(req.params.id);
+//         res.status(204).end();
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Internal server error');
+//     }
+// });
+
 
 exports.initializeRoutes = () => router;

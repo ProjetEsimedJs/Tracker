@@ -1,10 +1,11 @@
 const {DataTypes } = require('sequelize');
-const {sequelize} = require('../models/sqlite.db');
+const {sequelize} = require('./database');
 
 exports.User_task = sequelize.define('User_task', {
     // Model attributes are defined here
     id_user_task: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        autoIncrement : true,
         primaryKey: true,
         allowNull: false
     },
@@ -15,26 +16,24 @@ exports.User_task = sequelize.define('User_task', {
         allowNull: false
     },
     id_level: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         foreignKey: true,
         allowNull: false
     },
     id_task: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         foreignKey: true,
         allowNull: false,
     },
-
-    task_date_start: {
-        type: DataTypes.DATE.toLocaleString(),
-        timestamp: true,
-        createdAt: true,
-        allowNull: false
+    checkBox: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
     },
     task_date_end: {
-        type: DataTypes.DATE.toLocaleString(),
+        type: DataTypes.DATE,
         timestamp: true,
-        allowNull: false
-    },
+        allowNull: true
+    },},{
     tableName: 'User_task'
 });

@@ -3,24 +3,17 @@ const { DateTime } = require('luxon');
 var cors = require('cors');
 var { expressjwt: jwt } = require("express-jwt");
 require('dotenv').config();
-const guard = require('express-jwt-permissions')();
 
 
-// const middlewarePermissionsErrors = (app) => {
-// app.use(function (err, req, res, next) {
+const middlewarePermissionsErrors = (app) => {
+  app.use(function (err, req, res, next) {
 
-// });
-// };
+  });
+};
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 const middlewareStatic = (app) => app.use(express.static('public'));
 const middlewareCors = (app) => app.use(cors());
-const middleWareJwt = (app) => app.use(
-  jwt({
-    secret: process.env.SECRET_KEY,
-    algorithms: ["HS256"],
-  }).unless({ path: [{ url: "/users", methods: ["POST"] }, { url: "/auth/login", methods: [ "POST"] }] })
-);
 
 const initLoggerMiddlware = (app) => {
   app.use((req, res, next) => {
@@ -41,13 +34,32 @@ const initLoggerMiddlware = (app) => {
   });
 };
 
+const tokenMiddlware = (app) => {
+  app.use(
+      jwt({
+        secret: process.env.SECRET_KEY,
+        algorithms: ["HS256"],
+      }).unless(
+          { path: [{ url: "/users/create", methods: ["POST"] },
+                  { url: "/auth/login", methods: ["POST"] },
+                  { url: "/users/seeder-user", methods: ["POST"] },
+                  { url: "/calendar-event/seeder-calendar", methods: ["POST"] },
+                  { url: "/levels/seeder-level", methods: ["POST"] },
+                  { url: "/tasks/seeder-task", methods: ["POST"] },
+                  { url: "/user-level/seeder-level-user", methods: ["POST"] },
+                  { url: "/levels/post", methods: ["POST"]},
+                  { url: "/tasks/post", methods: ["POST"]},
+                  { url: "/user-task/seeder-task-user", methods: ["POST"] }] }),
+  );
+}
+
 exports.initializeConfigMiddlewares = (app) => {
   initJsonHandlerMiddlware(app);
   initLoggerMiddlware(app);
   middlewareStatic(app);
   middlewareCors(app);
-  //middleWareJwt(app);
-  //middlewarePermissionsErrors(app);
+  middlewarePermissionsErrors(app);
+  tokenMiddlware(app);
 
 }
 
@@ -57,6 +69,7 @@ exports.initializeErrorMiddlwares = (app) => {
       res.status(403).send('Forbidden');
       return
     }
+    console.log(err)
     res.status(500).send(err.message);
   });
 }

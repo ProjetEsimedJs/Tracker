@@ -1,9 +1,9 @@
 const {DataTypes } = require('sequelize');
-const {sequelize} = require('./database');
+const {sequelize} = require('./database')
 
-exports.User_level = sequelize.define('User_level', {
+exports.Calendar_event = sequelize.define('Calendar_event', {
     // Model attributes are defined here
-    id_user_level: {
+    id_event_calendar: {
         type: DataTypes.INTEGER,
         autoIncrement : true,
         primaryKey: true,
@@ -16,12 +16,16 @@ exports.User_level = sequelize.define('User_level', {
         allowNull: false
     },
 
-    id_level: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-        foreignKey: true,
+    date_event: {
+        type: DataTypes.DATE,
+        timestamp: true,
+        allowNull: false,
+    },
+
+    title_event: {
+        type: DataTypes.STRING(100),
         allowNull: false
     },
 },{
-    tableName: 'User_level'
+    tableName: 'Calendar_event'
 });
