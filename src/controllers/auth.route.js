@@ -8,7 +8,7 @@ const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 
 router.post('/login',
-    body('email').isEmail(),-
+    body('email').isEmail(),
     body('password').isLength({ min: 5 }),
 
     async (req, res) => {
