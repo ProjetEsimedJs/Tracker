@@ -49,6 +49,7 @@ const tokenMiddlware = (app) => {
                   { url: "/user-level/seeder-level-user", methods: ["POST"] },
                   { url: "/levels/post", methods: ["POST"]},
                   { url: "/tasks/post", methods: ["POST"]},
+                  { url: "/tasks/deleteTasks", methods: ["DELETE"]},
                   { url: "/user-task/seeder-task-user", methods: ["POST"] }] }),
   );
 }

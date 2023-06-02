@@ -1,6 +1,5 @@
 const { Task } = require('../models/task.model.js');
 
-
 exports.getTask = async (id_task) => {
     let foundedTask = await Task.findOne({ where: { id_task }});
     return foundedTask;
@@ -18,4 +17,18 @@ exports.getNumberTask = async (id_task) => {
 exports.getTaskLevel = async (id_level) => {
     let foundedTaskByLevel = await Task.findAll({ where: { id_level }});
     return foundedTaskByLevel;
+};
+
+exports.deleteAllTasks = async () => {
+    try {
+        await Task.destroy({
+            where: {},
+            truncate: true
+        });
+
+        return true;
+    } catch (error) {
+        console.error('Error deleting tasks:', error);
+        return false;
+    }
 };

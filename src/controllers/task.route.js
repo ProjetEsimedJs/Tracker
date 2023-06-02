@@ -19,6 +19,7 @@ router.post('/seeder-task', async (req, res) => {
     }
 });
 
+
 router.post('/post', async (req, res) => {
     try {
         const tasks = [
@@ -27,8 +28,8 @@ router.post('/post', async (req, res) => {
             { id_level: 1, name_task: "Prendre les escaliers a la place des ascenseurs" },
             { id_level: 1, name_task: "Marcher a la place de prendre le bus" },
             { id_level: 1, name_task: "Jouer à un sport d'équipe ou faire fitness maison" },
-            { id_level: 1, name_task: "Organiser une compétition amicale de jeux sportifs" },
-            { id_level: 1, name_task: "Essayer un nouveau sport ou une nouvelle activité" },
+            { id_level: 1, name_task: "Organiser une compétition amicale" },
+            { id_level: 1, name_task: "Essayer une nouvelle activité" },
             { id_level: 2, name_task: "Assister à une représentation théâtrale" },
             { id_level: 2, name_task: "Visiter un musée ou une galerie d'art" },
             { id_level: 2, name_task: "Lire un livre d'un auteur étranger" },
@@ -97,6 +98,15 @@ router.get('/:id_task', async (req, res) => {
             return;
         }
         res.send(idTask);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.delete('/deleteTasks', async (req, res) => {
+    try {
+         await taskRepository.deleteAllTasks();
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');
